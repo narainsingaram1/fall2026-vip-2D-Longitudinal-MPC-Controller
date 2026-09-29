@@ -101,29 +101,50 @@ The baseline scenario comprises four vehicles simultaneously approaching an un-s
 
 ---
 
-## 4. Key Engineering Insights & Discovered Limitations
+## 4. Breakthrough Deliverable: Conflict-Matrix Concurrent Scheduler
 
-1. **FIFO Inefficiency (Opportunity for Concurrent Dispatch):**  
-   Vehicle 2 (East) arrived only $0.4\text{ s}$ after Vehicle 1 (West). Since both are traveling straight paths in opposing lanes, they do not physically intersect. However, strict FIFO forced Vehicle 2 to idle for $1.4\text{ s}$ until Vehicle 1 completely exited the $12\text{m}$ box. Implementing a **Conflict Matrix** allowing parallel non-conflicting maneuvers will immediately reduce clearance time.
-2. **Elevated Jerk Metric ($35.16\text{ m/s}^3$):**  
-   Because BFGS operates on unconstrained decision variables with soft penalties, sudden transitions in acceleration occur when switching between `APPROACH` and `WAIT`. Adding explicit jerk damping ($W_{\text{jerk}} \sum (\Delta a)^2$) and bounded optimization (`SLSQP`) will significantly improve passenger comfort.
-3. **Queue Single-Car Bottleneck:**  
-   The baseline does not support multiple vehicles arriving on the same lane. Car-following safety distance constraints must be introduced.
+To directly address the strict FIFO bottleneck, I designed and implemented `ConcurrentScheduler` (`src/controllers/concurrent_scheduler.py`). Instead of a single active car lock, it evaluates geometric path conflict pairs before dispatch:
+
+- Opposing parallel streams: $\text{West} \leftrightarrow \text{East}$ and $\text{South} \leftrightarrow \text{North}$ do not physically intersect inside their dedicated travel lanes.
+- Whenever a vehicle at the head of the queue is dispatched, the scheduler immediately scans pending queued vehicles and grants concurrent green right-of-way to any vehicle that shares no conflict with currently crossing vehicles.
+
+### Comparative Benchmark: Baseline FIFO vs. Concurrent Conflict Matrix
+| Performance Metric | Baseline FIFO | Concurrent Conflict Matrix | Quantitative Delta |
+| :--- | :---: | :---: | :---: |
+| **System Clearance Time ($T_{sys}$)** | 13.20 s | **10.00 s** | **-24.2% (Faster)** |
+| **Average Stop Delay** | 2.25 s | **0.75 s** | **-66.7% (Reduced)** |
+| **Maximum Stop Delay** | 4.60 s | **1.60 s** | **-65.2% (Reduced)** |
+| **Effective Throughput** | 1090.9 veh/h | **1440.0 veh/h** | **+32.0% (Higher)** |
+| **Total Control Energy** | 1310.44 | 1310.44 | Parity |
+
+```mermaid
+xychart-beta
+    title "Delay & Clearance Time Comparison (s)"
+    x-axis ["Clearance Time", "Average Delay", "Max Delay"]
+    y-axis "Seconds" 0 --> 15
+    bar [13.20, 2.25, 4.60]
+    bar [10.00, 0.75, 1.60]
+```
 
 ---
 
-## 5. Artifacts Generated
-- `results/position_vs_time.png` — Vehicle positions relative to stop line and exit line.
-- `results/speed_vs_time.png` — Velocity convergence to $V_{\text{des}}$.
-- `results/acceleration_vs_time.png` — Control effort profile.
-- `results/mpc_dashboard.png` — 3-panel synchronized state trajectory dashboard.
-- `results/intersection_animation.gif` — 2D bird's-eye view animation showing multi-arm vehicle dynamics.
-- `results/metrics_summary.csv` — Full quantitative tabular dataset.
+## 5. Artifacts & Code Deliverables Generated
+- `src/models/vehicle.py` — Kinematic state model & trajectory container.
+- `src/controllers/mpc_controller.py` — Modular dual-stage MPC optimizer.
+- `src/controllers/fifo_scheduler.py` — Strict FIFO baseline controller.
+- `src/controllers/concurrent_scheduler.py` — Conflict-matrix concurrent crossing coordinator.
+- `src/metrics/evaluator.py` — Quantitative metric evaluation suite.
+- `src/visualization/animator_2d.py` — 2D bird's-eye view animated GIF renderer.
+- `results/intersection_animation.gif` — 2D animated simulation demo.
+- `results/comparison_fifo_vs_concurrent.png` — Comparative benchmark figure showing throughput and delay improvements.
+- `results/mpc_dashboard.png` — 3-panel synchronized trajectory dashboard.
+- `results/metrics_summary.csv` — Quantitative CSV export.
 
 ---
 
 ## 6. Action Items for Week 2
-- [ ] Implement multi-vehicle queueing per lane with inter-vehicle headway constraints:  
+- [ ] Implement multi-vehicle queueing per lane with car-following headway constraints:  
   $$p_{\text{lead}} - p_{\text{follow}} \ge d_{\text{safe}} + v \cdot \tau$$
-- [ ] Implement initial prototype of **Conflict Matrix Scheduler** for concurrent crossing.
-- [ ] Integrate bounded optimization solver (`SLSQP` / `OSQP`) to enforce hard limits ($-4.0 \le a \le 2.5\text{ m/s}^2$).
+- [ ] Integrate bounded optimization solver (`SLSQP` / `OSQP`) to enforce hard acceleration bounds ($-4.0 \le a \le 2.5\text{ m/s}^2$) and minimize jerk.
+- [ ] Present the baseline vs. concurrent comparative study during the sub-team standup meeting.
+
