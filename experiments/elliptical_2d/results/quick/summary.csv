@@ -1,0 +1,2 @@
+scenario,configuration,completed,clearance_s,min_q,collision_pair_steps,buffer_violation_steps,acceleration_rms,jerk_rms,peak_abs_acceleration,peak_abs_jerk,effort_integral,min_speed,max_speed,max_constraint_violation,stationary_solves,iteration_limit_solves,line_search_failures,solves,runtime_s
+staggered,softplus,4,7.0,1.1592170900151846,0,0,0.22902593737554325,0.4124047771629579,0.9560805084559378,2.9360670979279457,1.4686806397408956,7.0,8.323290358849988,0.0,13,22,0,35,0.5455692499817815

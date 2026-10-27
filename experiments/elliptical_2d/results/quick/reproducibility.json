@@ -1,0 +1,17 @@
+{
+  "python": "3.13.5",
+  "numpy": "2.3.2",
+  "scipy": "1.16.1",
+  "dt": 0.2,
+  "maximum_duration_s": 24.0,
+  "scenario_order": [
+    "staggered",
+    "simultaneous",
+    "offset"
+  ],
+  "source_sha256": {
+    "controller.py": "61dd42d78541c8c8a0d8f02a1fc103dc416cec9f51bad48d284c80b3a2ead510",
+    "model.py": "b87a5d50313f2f2ac258a39ae1d03caae94bd6d7468aa370c1f7402a355171aa",
+    "run_experiments.py": "1a98fe30d67406dcfb9c2bf1d51357e715843d727c2c32f597535474f61a4dbc"
+  }
+}

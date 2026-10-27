@@ -1,0 +1,12 @@
+{
+  "runs_verified": 24,
+  "tracked_files_verified_unchanged": 31,
+  "max_saved_dynamics_residual": 0.0,
+  "max_accepted_cost_increase": 9.991950322696397e-11,
+  "all_saved_states_controls_finite": true,
+  "all_executed_bounds_within_1e_6": true,
+  "all_saved_jerk_metrics_reproduced": true,
+  "all_visual_artifact_hashes_match": true,
+  "unit_tests_passed": 8,
+  "branch": "experiment/elliptical-potential-2d"
+}

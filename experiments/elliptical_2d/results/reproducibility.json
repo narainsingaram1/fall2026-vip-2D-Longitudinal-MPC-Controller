@@ -1,0 +1,20 @@
+{
+  "python": "3.13.5",
+  "numpy": "2.3.2",
+  "projection_backend": "numba",
+  "scipy": "1.16.1",
+  "dt": 0.2,
+  "maximum_duration_s": 24.0,
+  "scenario_order": [
+    "staggered",
+    "simultaneous",
+    "offset"
+  ],
+  "source_sha256": {
+    "controller.py": "4fbef457f3ed8a1d08c690fd24e168b0d1cf7d2a5b87811420907962a0f91e4c",
+    "test_experiment.py": "c23f06c3573a37b50553ca9eeb3d42ae7f1722f8105b684e686d53814993c4ff",
+    "model.py": "1be4afae7b4a3b83d76f38388199df2fb707fdd5daae68fa407ba26ca8f1ab07",
+    "showcase.py": "db6389a260b6452f2030737e2a8eb8a20fa7200c29f8ca1825451a22da3d7860",
+    "run_experiments.py": "88186bc0f0bd0fcf63b4c754dccf161c75aa213b09398e1dd4c40cb9c63ef0b4"
+  }
+}

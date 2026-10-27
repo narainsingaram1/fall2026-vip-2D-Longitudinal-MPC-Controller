@@ -1,0 +1,11 @@
+{
+  "showcase_source_sha256": "1570393aca4d91a19a56fe3b58941ec61ced5e15fcf54d5b651b49fc2283af7b",
+  "artifacts_sha256": {
+    "04_offset_softplus.gif": "bb61c80837629c6dd09d0488f3dd8539cd6c7c883fd075e9ea5032335531aff2",
+    "02_dashboard_offset.png": "1858bba68a1491634c25816378c03b61f8f0740b9e7e78d0a2f3a73b4c4d8eb3",
+    "01_potential_comparison.png": "eb627f0061ffc163e707c1b0099a7df673fb39baf73ccf0c3a95d742aaadd571",
+    "02_dashboard_staggered.png": "637eddac9f6729efb578b915c7af2f08d3e3f86bf3601d232da20ee7bd7f15d1",
+    "03_experiment_comparison.png": "bc993d9965e9a952a4cb85ba1948424963983a1dd663a7df2710010d01528b8e",
+    "02_dashboard_simultaneous.png": "5ddebc23b6f6854f11223b6eaf22c2ac52387ecfe06097337f451427207f92cb"
+  }
+}
